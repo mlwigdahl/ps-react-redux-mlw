@@ -1,3 +1,6 @@
+#NOTE:  
+This is my version of this demo app -- if you are interested, I highly recommend you get the empty version from Cory House's GitHub path below and work through it yourself.
+
 #Starter Kit for [Building Applications in React and Redux in ES6](http://www.pluralsight.com/author/cory-house) on Pluralsight
 
 ## Get Started
