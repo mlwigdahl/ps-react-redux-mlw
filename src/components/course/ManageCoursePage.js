@@ -18,10 +18,12 @@ export class ManageCoursePage extends React.Component {
 
         this.updateCourseState = this.updateCourseState.bind(this);
         this.saveCourse = this.saveCourse.bind(this);
+        this.deleteCourse = this.deleteCourse.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
-        if ((this.props.course == null && nextProps.course != null) || (this.props.course.id != nextProps.course.id)) {
+        if (this.props.course == null || nextProps.course == null || 
+            (this.props.course.id != nextProps.course.id)) {
             this.setState({course: Object.assign({}, nextProps.course)});
         }
     }
@@ -33,14 +35,23 @@ export class ManageCoursePage extends React.Component {
         return this.setState({course: course});
     }
 
-    courseFormIsValue() {
+    courseFormIsValid(mode) {
         let formIsValid = true;
         let errors = {};
 
-        if (this.state.course.title.length < 5) {
-            errors.title = 'Title must be at least 5 characters.';
-            formIsValid = false;
+        if (mode == "save") {
+            if (this.state.course.title.length < 5) {
+                errors.title = 'Title must be at least 5 characters.';
+                formIsValid = false;
+            }
+        } else if (mode == "delete") {
+            if (this.state.course.id == null || this.state.course.id == '') {
+                errors.title = "Can't delete an empty course.";
+                formIsValid = false;
+            }
         }
+
+
 
         this.setState({errors: errors});
         return formIsValid;
@@ -49,23 +60,49 @@ export class ManageCoursePage extends React.Component {
     saveCourse(event) {
         event.preventDefault();
 
-        if (!this.courseFormIsValue()) {
+        if (!this.courseFormIsValid("save")) {
             return;
         } 
 
         this.setState({saving: true});
 
         this.props.actions.saveCourse(this.state.course)
-            .then(() => this.redirect())
+            .then(() => this.redirect("save"))
             .catch(error => {
                 toastr.error(error);
                 this.setState({saving: false});
             });
     }
 
-    redirect() {
-        this.setState({saving: false});
-        toastr.success('Course saved');
+    deleteCourse(event) {
+        event.preventDefault();
+
+        if (!this.courseFormIsValid("delete")) {
+            return;
+        }
+
+        this.setState({deleting: true});
+
+        this.props.actions.deleteCourse(this.state.course)
+            .then(() => this.redirect("delete"))
+            .catch(error => {
+                toastr.error(error);
+                this.setState({deleting: false});
+            });
+    }
+
+    redirect(mode) {
+        let toast = "<<uninitialized>>";
+
+        if (mode == "save") {
+            this.setState({saving: false});
+            toast = "Course saved";
+        } else if (mode == "delete") {
+            this.setState({deleting: false});
+            toast = "Course deleted";
+        }
+        
+        toastr.success(toast);
         this.context.router.push('/courses');
     }
 
@@ -75,9 +112,11 @@ export class ManageCoursePage extends React.Component {
                     allAuthors={this.props.authors}
                     onChange={this.updateCourseState}
                     onSave={this.saveCourse}
+                    onDelete={this.deleteCourse}
                     course={this.state.course}
                     errors={this.state.errors}
                     saving={this.state.saving}
+                    deleting={this.state.deleting}
             />
         );
     }

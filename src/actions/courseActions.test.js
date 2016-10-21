@@ -21,6 +21,21 @@ describe('Course Actions', () => {
             expect(action).toEqual(expectedAction);
         });
     });
+
+    describe('deleteCourseSuccess', () => {
+        it('should create DELETE_COURSE_SUCCESS action', () => {
+            //arrange
+            const course = {id: 'clean-code', title: 'Clean Code'};
+            const expectedAction = {
+                type: types.DELETE_COURSE_SUCCESS,
+                course: course
+            };
+
+            const action = courseActions.deleteCourseSuccess(course);
+
+            expect(action).toEqual(expectedAction);
+        });
+    });
 });
 
 const middleware = [thunk];

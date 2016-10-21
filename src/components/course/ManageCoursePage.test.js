@@ -12,9 +12,21 @@ describe('Manage Course Page', () => {
         };
 
         const wrapper = mount(<ManageCoursePage {...props}/>);
-        const saveButton = wrapper.find('input').last();
-        expect(saveButton.prop('type')).toBe('submit');
+        const saveButton = wrapper.find('[type="submit"]').first();
         saveButton.simulate('click');
         expect(wrapper.state().errors.title).toBe('Title must be at least 5 characters.');
+    });
+
+    it('sets error message when trying to delete empty id', () => {
+        const props = {
+            authors: [],
+            actions: {deleteCourse: () => { return Promise.resolve(); }},
+            course: {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''}
+        };
+
+        const wrapper = mount(<ManageCoursePage {...props}/>);
+        const deleteButton = wrapper.find('[type="submit"]').last();
+        deleteButton.simulate('click');
+        expect(wrapper.state().errors.title).toBe("Can't delete an empty course.");
     });
 });

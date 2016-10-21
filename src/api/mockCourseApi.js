@@ -91,14 +91,15 @@ class CourseApi {
     });
   }
 
-  static deleteCourse(courseId) {
+  static deleteCourse(course) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        const indexOfCourseToDelete = courses.findIndex(course => {
-          course.courseId == courseId;
-        });
+        const indexOfCourseToDelete = courses.findIndex(a => a.id == course.id);
+        if (indexOfCourseToDelete < 0 || indexOfCourseToDelete > courses.length) {
+          throw("Deletion index out of range.");
+        }
         courses.splice(indexOfCourseToDelete, 1);
-        resolve();
+        resolve(course);
       }, delay);
     });
   }

@@ -3,12 +3,14 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import CourseForm from './CourseForm';
 
-function setup(saving) {
+function setup(saving, deleting) {
     let props = {
         course: {}, 
         saving: saving, 
+        deleting: deleting,
         errors: {}, 
         onSave: () => {},
+        onDelete: () => {},
         onChange: () => {}
     };
 
@@ -32,14 +34,26 @@ describe('CourseForm via React Test Utils', () => {
     });
 
     it('save button is labeled "Save" when not saving', () => {
-        const {output} = setup(false);
+        const {output} = setup(false, false);
         const submitButton = output.props.children[5];
         expect(submitButton.props.value).toBe('Save');
     });
 
-    it('save button is labeled "Save" when not saving', () => {
-        const {output} = setup(true);
+    it('save button is labeled "Saving..." when saving', () => {
+        const {output} = setup(true, false);
         const submitButton = output.props.children[5];
         expect(submitButton.props.value).toBe('Saving...');
+    });    
+
+    it('delete button is labeled "Delete" when not deleting', () => {
+        const {output} = setup(false, false);
+        const submitButton = output.props.children[6];
+        expect(submitButton.props.value).toBe('Delete');
+    });
+
+    it('delete button is labeled "Delete..." when deleting', () => {
+        const {output} = setup(false, true);
+        const submitButton = output.props.children[6];
+        expect(submitButton.props.value).toBe('Deleting...');
     });    
 });

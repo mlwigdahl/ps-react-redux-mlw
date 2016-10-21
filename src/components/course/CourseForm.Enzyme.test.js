@@ -4,12 +4,14 @@ import {mount, shallow} from 'enzyme';
 import TestUtils from 'react-addons-test-utils';
 import CourseForm from './CourseForm';
 
-function setup(saving) {
+function setup(saving, deleting) {
     const props = {
         course: {},
         saving: saving,
+        deleting: deleting,
         errors: {},
         onSave: () => {},
+        onDelete: () => {},
         onChange: () => {}
     };
 
@@ -23,11 +25,21 @@ it('renders form and h1', () => {
 });
 
 it('save button is labeled "Save" when not saving', () => {
-    const wrapper = setup(false);
-    expect(wrapper.find('input').props().value).toBe('Save');
+    const wrapper = setup(false, false);
+    expect(wrapper.find('[type="submit"]').first().props().value).toBe('Save');
 });
 
 it('save button is labeled "Saving..." when saving', () => {
-    const wrapper = setup(true);
-    expect(wrapper.find('input').props().value).toBe('Saving...');
+    const wrapper = setup(true, false);
+    expect(wrapper.find('[type="submit"]').first().props().value).toBe('Saving...');
+});
+
+it('delete button is labeled "Delete" when not deleting', () => {
+    const wrapper = setup(false, false);
+    expect(wrapper.find('[type="submit"]').last().props().value).toBe('Delete');
+});
+
+it('delete button is labeled "Delete..." when deleting', () => {
+    const wrapper = setup(false, true);
+    expect(wrapper.find('[type="submit"]').last().props().value).toBe('Deleting...');
 });
