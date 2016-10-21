@@ -2,6 +2,10 @@ import React, {PropTypes} from 'react';
 import CourseListRow from './CourseListRow';
 
 const CourseList = ({courses}) => {
+    if (courses.length == 0) {
+        return (<div />);
+    }
+
     return (
         <table className="table">
             <thead>

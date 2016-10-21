@@ -4,15 +4,19 @@ This is my version of this demo app -- if you are interested, I highly recommend
 ###TODO based on course challenges...
 
 1. Author administration (with blocking logic when the author has a course)
-2. Delete course
-3. Hide empty course list
+2. Delete course (**DONE**)
+3. Hide empty course list (**DONE**)
 4. Unsaved changes messages
-5. Client-side validation (category and length data, etc.)
-6. Handle 404s (MangeCoursePage/ManageAuthorPage);
-7. Show # courses in header
+5. Client-side validation (category and length data, etc.) (**DONE**)
+6. Handle 404s (ManageCoursePage/ManageAuthorPage);
+7. Show # courses in header (**DONE**)
 8. Pagination
-9. Sort course table
+9. Sort course table (**DONE**)
 10. Revert abandoned changes
+
+###TODO based on my own challenges... :)
+
+1. Allow sort by header click, with arrow display.
 
 #Starter Kit for [Building Applications in React and Redux in ES6](http://www.pluralsight.com/author/cory-house) on Pluralsight
 

@@ -35,6 +35,13 @@ export class ManageCoursePage extends React.Component {
         return this.setState({course: course});
     }
 
+    lengthIsValid(length) {
+        if (/^[0-9]?[0-9]:[0-5]?[0-9]$/.test(length)) {
+            return true;
+        }
+        return false;
+    }
+
     courseFormIsValid(mode) {
         let formIsValid = true;
         let errors = {};
@@ -43,6 +50,12 @@ export class ManageCoursePage extends React.Component {
             if (this.state.course.title.length < 5) {
                 errors.title = 'Title must be at least 5 characters.';
                 formIsValid = false;
+            } else if (this.state.course.category.length < 5) {
+                errors.category = 'Category must be at least 5 characters.';
+                formIsValid = false;
+            } else if (!this.lengthIsValid(this.state.course.length)) {
+                errors.length = 'Length must be in the form hh:mm.';
+                formIsValid = false;
             }
         } else if (mode == "delete") {
             if (this.state.course.id == null || this.state.course.id == '') {
@@ -50,8 +63,6 @@ export class ManageCoursePage extends React.Component {
                 formIsValid = false;
             }
         }
-
-
 
         this.setState({errors: errors});
         return formIsValid;

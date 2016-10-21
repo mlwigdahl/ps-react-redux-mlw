@@ -5,7 +5,7 @@ import * as courseActions from '../../actions/courseActions';
 import CourseList from './CourseList';
 import {browserHistory} from 'react-router';
 
-class CoursesPage extends React.Component {
+export class CoursesPage extends React.Component {
     constructor(props, context) {
         super(props, context);
         
@@ -23,9 +23,11 @@ class CoursesPage extends React.Component {
     render() {
         const {courses} = this.props;
 
+        const numEntries = (courses.length == 0) ? "" : (" (" + courses.length + (courses.length > 1 ? " Entries)" : " Entry)"));
+
         return (
             <div>
-                <h1>Courses</h1>
+                <h1>Courses{numEntries}</h1>
                 <input type="submit"
                     value="Add Course"
                     className="btn btn-primary"
@@ -37,9 +39,13 @@ class CoursesPage extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    return {
-        courses: state.courses
+    const mapped = {
+        courses: state.courses.sort( (a, b) => {
+            return a.title.localeCompare(b.title);
+        })
     };
+    
+    return mapped;
 }
 
 function mapDispatchToProps(dispatch) {
