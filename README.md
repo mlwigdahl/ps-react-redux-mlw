@@ -1,6 +1,19 @@
 #NOTE:  
 This is my version of this demo app -- if you are interested, I highly recommend you get the empty version from Cory House's GitHub path below and work through it yourself.
 
+###TODO based on course challenges...
+
+1. Author administration (with blocking logic when the author has a course)
+2. Delete course
+3. Hide empty course list
+4. Unsaved changes messages
+5. Client-side validation (category and length data, etc.)
+6. Handle 404s (MangeCoursePage/ManageAuthorPage);
+7. Show # courses in header
+8. Pagination
+9. Sort course table
+10. Revert abandoned changes
+
 #Starter Kit for [Building Applications in React and Redux in ES6](http://www.pluralsight.com/author/cory-house) on Pluralsight
 
 ## Get Started
