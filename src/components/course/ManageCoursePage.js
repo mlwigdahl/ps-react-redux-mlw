@@ -13,7 +13,8 @@ export class ManageCoursePage extends React.Component {
         this.state = {
             course: Object.assign({}, props.course),
             errors: {},
-            saving: false
+            saving: false,
+            deleting: false
         };
 
         this.updateCourseState = this.updateCourseState.bind(this);

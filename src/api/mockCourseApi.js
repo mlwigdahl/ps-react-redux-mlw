@@ -85,7 +85,6 @@ class CourseApi {
           course.watchHref = `http://www.pluralsight.com/courses/${course.id}`;
           courses.push(course);
         }
-
         resolve(course);
       }, delay);
     });
@@ -96,7 +95,7 @@ class CourseApi {
       setTimeout(() => {
         const indexOfCourseToDelete = courses.findIndex(a => a.id == course.id);
         if (indexOfCourseToDelete < 0 || indexOfCourseToDelete > courses.length) {
-          throw("Deletion index out of range.");
+          reject("Deletion index out of range.");
         }
         courses.splice(indexOfCourseToDelete, 1);
         resolve(course);
