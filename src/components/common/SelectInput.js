@@ -5,7 +5,6 @@ const SelectInput = ({name, label, onChange, defaultOption, value, error, option
         <div className="form-group">
             <label htmlFor={name}>{label}</label>
             <div className="field">
-            { }
                 <select
                     name={name}
                     value={value}

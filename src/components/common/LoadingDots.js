@@ -20,18 +20,21 @@ class LoadingDots extends React.Component {
     }
 
     render() {
-        let dots = this.state.frame % (this.props.dots + 1);
+        debugger;
+        const { dots, interval, ...newProps } = this.props;
+        let theseDots = this.state.frame % (dots + 1);
         let text = '';
-        while (dots > 0) {
+        while (theseDots > 0) {
             text += '.';
-            dots--;
+            theseDots--;
         }
-        return <span {...this.props}>{text}&nbsp;</span>;
+        return <span {...newProps}>{text}&nbsp;</span>;
     }
 }
 
 LoadingDots.defaultProps = {
-    interval: 300, dots: 3
+    interval: 300, 
+    dots: 3
 };
 
 LoadingDots.propTypes = {
