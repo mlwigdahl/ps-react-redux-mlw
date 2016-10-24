@@ -6,3 +6,9 @@ export function authorsFormattedForDropdown(authors) {
         };
     });
 }
+
+// kind of unsure if this is the right place, but seems appropriate...
+
+export function authorIdFromData({firstName, lastName}) {
+    return firstName.toLowerCase() + '-' + lastName.toLowerCase();
+}

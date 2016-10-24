@@ -1,5 +1,5 @@
 import expect from 'expect';
-import {authorsFormattedForDropdown} from './selectors';
+import {authorsFormattedForDropdown, authorIdFromData} from './selectors';
 
 describe('Author Selectors', () => {
     describe('authorsFormattedForDropdown', () => {
@@ -17,4 +17,14 @@ describe('Author Selectors', () => {
             expect(authorsFormattedForDropdown(authors)).toEqual(expected);
         });
     });
+
+    describe('authorIdFromData', () => {
+        it('should return an ID value for the provided author object', () => {
+            const author = {id: 'cory-house', firstName: 'Cory', lastName: 'House'};
+
+            const expected = 'cory-house';
+
+            expect(authorIdFromData(author)).toEqual(expected);
+        })
+    })
 });

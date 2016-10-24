@@ -1,0 +1,178 @@
+import React, {PropTypes} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as authorActions from '../../actions/authorActions';
+import AuthorForm from './AuthorForm'; 
+import toastr from 'toastr';
+import {authorIdFromData} from '../../selectors/selectors.js';
+
+export class ManageAuthorPage extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+
+        this.state = {
+            author: {...props.author},
+            errors: {},
+            saving: false,
+            deleting: false
+        };
+
+        this.updateAuthorState = this.updateAuthorState.bind(this);
+        this.saveAuthor = this.saveAuthor.bind(this);
+        this.deleteAuthor = this.deleteAuthor.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.author == null || nextProps.author == null || 
+            (this.props.author.id != nextProps.author.id)) {
+            this.setState({author: {...nextProps.author}});
+        }
+    }
+
+    updateAuthorState(event) {
+        const field = event.target.name;
+        let author = this.state.author;
+        author[field] = event.target.value;
+        return this.setState({author: author});
+    }
+
+    authorFormIsValid(mode) {
+        debugger;
+        let formIsValid = true;
+        let errors = {};
+
+        if (mode == "save") {
+            if (this.state.author.firstName === undefined || this.state.author.firstName.length < 1) {
+                errors.firstName = 'First name must be at least 1 character.';
+                formIsValid = false;
+            } else if (this.state.author.lastName === undefined || this.state.author.length < 1) {
+                errors.lastName = 'Last name must be at least 1 character.';
+                formIsValid = false;
+            } else if (this.state.author.id === undefined && this.props.authors.find( auth => {
+                return (auth.id == 
+                    authorIdFromData({firstName: this.state.author.firstName, lastName: this.state.author.lastName}));
+                })) {
+                errors.firstName = "Can't insert a duplicate author.";
+                formIsValid = false;
+            }
+        } else if (mode == "delete") {
+            if (this.state.author.id === undefined || this.state.author.id == null || this.state.author.id == '') {
+                errors.firstName = "Can't delete an empty author.";
+                formIsValid = false;
+            } else if (this.props.courses.find( crs => (crs.authorId == this.state.author.id))) { 
+                errors.firstName = "Can't delete an author that's referenced by a course.";
+                formIsValid = false;
+            }
+        }
+
+        this.setState({errors: errors});
+        return formIsValid;
+    }
+
+    saveAuthor(event) {
+        event.preventDefault();
+
+        if (!this.authorFormIsValid("save")) {
+            return;
+        } 
+
+        this.setState({saving: true});
+
+        this.props.actions.saveAuthor(this.state.author)
+            .then(() => this.redirect("save"))
+            .catch(error => {
+                toastr.error(error);
+                this.setState({saving: false});
+            });
+    }
+
+    deleteAuthor(event) {
+        event.preventDefault();
+
+        if (!this.authorFormIsValid("delete")) {
+            return;
+        }
+
+        this.setState({deleting: true});
+
+        this.props.actions.deleteAuthor(this.state.author)
+            .then(() => this.redirect("delete"))
+            .catch(error => {
+                toastr.error(error);
+                this.setState({deleting: false});
+            });
+    }
+
+    redirect(mode) {
+        let toast = "<<uninitialized>>";
+
+        if (mode == "save") {
+            this.setState({saving: false});
+            toast = "Author saved";
+        } else if (mode == "delete") {
+            this.setState({deleting: false});
+            toast = "Author deleted";
+        }
+        
+        toastr.success(toast);
+        this.context.router.push('/authors');
+    }
+
+/// more here
+    render() {
+        return (
+            <AuthorForm 
+                    allAuthors={this.props.authors}
+                    onChange={this.updateAuthorState}
+                    onSave={this.saveAuthor}
+                    onDelete={this.deleteAuthor}
+                    author={this.state.author}
+                    errors={this.state.errors}
+                    saving={this.state.saving}
+                    deleting={this.state.deleting}
+            />
+        );
+    }
+}
+
+ManageAuthorPage.propTypes = {
+    author: PropTypes.object.isRequired,
+    authors: PropTypes.array.isRequired,
+    courses: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired
+};
+
+ManageAuthorPage.contextTypes = {
+    router: PropTypes.object
+};
+
+function getAuthorById(authors, id) {
+    const author = authors.filter(author => author.id == id);
+
+    if (author.length) return author[0]; // filter returns an array -- grab the first one
+    return null;
+}
+
+function mapStateToProps(state, ownProps) {
+    const authorId = ownProps.params.id; // from the path '/course/:id'
+
+    let author = {id: '', watchHref: '', firstName: '', lastName: ''};
+
+    if (authorId && state.authors.length > 0) {
+        author = getAuthorById(state.authors, authorId);
+    }
+
+    return {
+        author: author,
+        authors: [...state.authors],
+        courses: [...state.courses]
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(authorActions, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageAuthorPage);
