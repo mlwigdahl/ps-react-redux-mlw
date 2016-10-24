@@ -20,7 +20,6 @@ class LoadingDots extends React.Component {
     }
 
     render() {
-        debugger;
         const { dots, interval, ...newProps } = this.props;
         let theseDots = this.state.frame % (dots + 1);
         let text = '';

@@ -40,7 +40,7 @@ export class CoursesPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
     const mapped = {
-        courses: state.courses.sort( (a, b) => {
+        courses: [...state.courses].sort( (a, b) => {
             return a.title.localeCompare(b.title);
         })
     };
