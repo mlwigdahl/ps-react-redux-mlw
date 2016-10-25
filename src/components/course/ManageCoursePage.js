@@ -5,6 +5,7 @@ import * as courseActions from '../../actions/courseActions';
 import CourseForm from './CourseForm'; 
 import toastr from 'toastr';
 import {authorsFormattedForDropdown} from '../../selectors/selectors';
+import NotFoundPage from '../common/NotFoundPage';
 
 export class ManageCoursePage extends React.Component {
     constructor(props, context) {
@@ -119,8 +120,13 @@ export class ManageCoursePage extends React.Component {
     }
 
     render() {
-        return (
-            <CourseForm 
+        if (this.props.params.id != "" &&
+            !this.props.courses.find(crs => crs.id == this.props.params.id)) {
+            return (<NotFoundPage />);
+        }
+        else {
+            return (
+                <CourseForm 
                     allAuthors={this.props.authors}
                     onChange={this.updateCourseState}
                     onSave={this.saveCourse}
@@ -129,15 +135,18 @@ export class ManageCoursePage extends React.Component {
                     errors={this.state.errors}
                     saving={this.state.saving}
                     deleting={this.state.deleting}
-            />
-        );
+                />
+            );
+        }
     }
 }
 
 ManageCoursePage.propTypes = {
     course: PropTypes.object.isRequired,
     authors: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    courses: PropTypes.array.isRequired,
+    params: PropTypes.object
 };
 
 ManageCoursePage.contextTypes = {
@@ -162,7 +171,8 @@ function mapStateToProps(state, ownProps) {
 
     return {
         course: course,
-        authors: authorsFormattedForDropdown(state.authors)
+        authors: authorsFormattedForDropdown(state.authors),
+        courses: [...state.courses]
     };
 }
 

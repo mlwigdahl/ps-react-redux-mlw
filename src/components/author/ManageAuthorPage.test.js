@@ -9,35 +9,40 @@ function setupSaveProps(type) {
             courses: [],
             authors: [],
             actions: {saveAuthor: () => { return Promise.resolve(); }},
-            author: {lastName: 'Wigdahl'}
+            author: {lastName: 'Wigdahl'},
+            params: {id: ''}
         };
     } else if (type == "lastName") {
         return {
             courses: [],
             authors: [],
             actions: {saveAuthor: () => { return Promise.resolve(); }},
-            author: {firstName: 'Matt'}
+            author: {firstName: 'Matt'},
+            params: {id: ''}
         };
     } else if (type == "dupe") {
         return {
             courses: [],
             authors: [{id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}],
             actions: {saveAuthor: () => { return Promise.resolve(); }},
-            author: {id: '', firstName: 'Matt', lastName: 'Wigdahl'}
+            author: {id: '', firstName: 'Matt', lastName: 'Wigdahl'},
+            params: {id: ''}
         };
     } else if (type == "empty") {
         return {
             courses: [],
             authors: [{id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}],
             actions: {deleteAuthor: () => { return Promise.resolve(); }},
-            author: {id: '', firstName: 'Matt', lastName: 'Wigdahl'}
-        }
+            author: {id: '', firstName: 'Matt', lastName: 'Wigdahl'},
+            params: {id: ''}
+        };
     } else if (type == "courseLink") {
         return {
             courses: [{id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'matt-wigdahl', length: '2:30', category: 'Javascript'}],
             authors: [{id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}],
             actions: {deleteAuthor: () => { return Promise.resolve(); }},
-            author: {id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}
+            author: {id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'},
+            params: {id: 'matt-wigdahl'}
         };
     }
 }

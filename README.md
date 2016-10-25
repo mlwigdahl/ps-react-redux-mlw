@@ -8,7 +8,7 @@ This is my version of this demo app -- if you are interested, I highly recommend
 3. Hide empty course list (**DONE**)
 4. Unsaved changes messages
 5. Client-side validation (category and length data, etc.) (**DONE**)
-6. Handle 404s (ManageCoursePage/ManageAuthorPage);
+6. Handle 404s (ManageCoursePage/ManageAuthorPage); (**DONE**) [not convinced these are the best-structured]
 7. Show # courses in header (**DONE**)
 8. Pagination
 9. Sort course table (**DONE**)

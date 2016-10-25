@@ -7,20 +7,34 @@ function setupSaveProps(type) {
     if (type == "title") {
         return {
             authors: [],
+            courses: [{id: 'abc', watchHref: '', title: 'ABC', authorId: 'cory-house', length: '2:30', category: 'Javascript'}],
             actions: {saveCourse: () => { return Promise.resolve(); }},
-            course: {id: 'abc', watchHref: '', title: 'ABC', authorId: 'cory-house', length: '2:30', category: 'Javascript'}
+            course: {id: 'abc', watchHref: '', title: 'ABC', authorId: 'cory-house', length: '2:30', category: 'Javascript'},
+            params: {id: 'abc'}
         };
     } else if (type == "category") {
         return {
             authors: [],
+            courses: [{id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:30', category: 'JS'}],
             actions: {saveCourse: () => { return Promise.resolve(); }},
-            course: {id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:30', category: 'JS'}
+            course: {id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:30', category: 'JS'},
+            params: {id: 'abcde'}
         };
     } else if (type == "length") {
         return {
             authors: [],
+            courses: [{id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:70', category: 'Javascript'}],
             actions: {saveCourse: () => { return Promise.resolve(); }},
-            course: {id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:70', category: 'Javascript'}
+            course: {id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:70', category: 'Javascript'},
+            params: {id: 'abcde'}
+        };
+    } else if (type == "empty") {
+        return {
+            authors: [],
+            courses: [],
+            actions: {deleteCourse: () => { return Promise.resolve(); }},
+            course: {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''},
+            params: {id: ''}
         };
     }
 }
@@ -65,11 +79,7 @@ describe('Manage Course Page', () => {
     });
 
     it('sets error message when trying to delete empty id', () => {
-        const props = {
-            authors: [],
-            actions: {deleteCourse: () => { return Promise.resolve(); }},
-            course: {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''}
-        };
+        const props = setupSaveProps("empty");
 
         const wrapper = mount(<ManageCoursePage {...props}/>);
         const deleteButton = wrapper.find('[type="submit"]').last();

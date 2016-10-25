@@ -44,5 +44,5 @@ describe('Store', function() {
         };
 
         expect(actual).toEqual(expected);
-    })
+    });
 });

@@ -25,6 +25,6 @@ describe('Author Selectors', () => {
             const expected = 'cory-house';
 
             expect(authorIdFromData(author)).toEqual(expected);
-        })
-    })
+        });
+    });
 });

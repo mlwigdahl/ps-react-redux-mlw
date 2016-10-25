@@ -5,6 +5,7 @@ import * as authorActions from '../../actions/authorActions';
 import AuthorForm from './AuthorForm'; 
 import toastr from 'toastr';
 import {authorIdFromData} from '../../selectors/selectors.js';
+import NotFoundPage from '../common/NotFoundPage';
 
 export class ManageAuthorPage extends React.Component {
     constructor(props, context) {
@@ -120,6 +121,10 @@ export class ManageAuthorPage extends React.Component {
 
 /// more here
     render() {
+        if (this.props.params.id != "" &&
+            !this.props.authors.find(auth => auth.id == this.props.params.id)) {
+            return (<NotFoundPage />);
+        }
         return (
             <AuthorForm 
                     allAuthors={this.props.authors}
@@ -139,7 +144,8 @@ ManageAuthorPage.propTypes = {
     author: PropTypes.object.isRequired,
     authors: PropTypes.array.isRequired,
     courses: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
+    params: PropTypes.object
 };
 
 ManageAuthorPage.contextTypes = {
