@@ -37,7 +37,6 @@ export class ManageAuthorPage extends React.Component {
     }
 
     authorFormIsValid(mode) {
-        debugger;
         let formIsValid = true;
         let errors = {};
 
@@ -48,7 +47,8 @@ export class ManageAuthorPage extends React.Component {
             } else if (this.state.author.lastName === undefined || this.state.author.length < 1) {
                 errors.lastName = 'Last name must be at least 1 character.';
                 formIsValid = false;
-            } else if (this.state.author.id === undefined && this.props.authors.find( auth => {
+            } else if ((this.state.author.id === undefined ||
+                this.state.author.id == "") && this.props.authors.find( auth => {
                 return (auth.id == 
                     authorIdFromData({firstName: this.state.author.firstName, lastName: this.state.author.lastName}));
                 })) {
@@ -57,7 +57,7 @@ export class ManageAuthorPage extends React.Component {
             }
         } else if (mode == "delete") {
             if (this.state.author.id === undefined || this.state.author.id == null || this.state.author.id == '') {
-                errors.firstName = "Can't delete an empty author.";
+                errors.firstName = "Can't delete an unsaved author.";
                 formIsValid = false;
             } else if (this.props.courses.find( crs => (crs.authorId == this.state.author.id))) { 
                 errors.firstName = "Can't delete an author that's referenced by a course.";

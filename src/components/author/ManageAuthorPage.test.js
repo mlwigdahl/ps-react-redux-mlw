@@ -23,14 +23,14 @@ function setupSaveProps(type) {
             courses: [],
             authors: [{id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}],
             actions: {saveAuthor: () => { return Promise.resolve(); }},
-            author: {id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}
+            author: {id: '', firstName: 'Matt', lastName: 'Wigdahl'}
         };
     } else if (type == "empty") {
         return {
             courses: [],
             authors: [{id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}],
             actions: {deleteAuthor: () => { return Promise.resolve(); }},
-            author: {id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}
+            author: {id: '', firstName: 'Matt', lastName: 'Wigdahl'}
         }
     } else if (type == "courseLink") {
         return {
@@ -77,7 +77,7 @@ describe('Manage Author Page', () => {
         const wrapper = mount(<ManageAuthorPage {...props}/>);
         const deleteButton = wrapper.find('[type="submit"]').last();
         deleteButton.simulate('click');
-        expect(wrapper.state().errors.firstName).toBe("Can't delete an empty author.");
+        expect(wrapper.state().errors.firstName).toBe("Can't delete an unsaved author.");
     });
 
     it('sets error message when trying to delete an author linked to a course', () => {

@@ -3,7 +3,7 @@ This is my version of this demo app -- if you are interested, I highly recommend
 
 ###TODO based on course challenges...
 
-1. Author administration (with blocking logic when the author has a course)
+1. Author administration (with blocking logic when the author has a course) (**DONE**)
 2. Delete course (**DONE**)
 3. Hide empty course list (**DONE**)
 4. Unsaved changes messages
