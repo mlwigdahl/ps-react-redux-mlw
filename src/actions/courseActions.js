@@ -18,6 +18,10 @@ export function deleteCourseSuccess(course) {
     return { type: types.DELETE_COURSE_SUCCESS, course };
 }
 
+export function courseChanged() {
+    return { type: types.COURSE_CHANGED };
+}
+
 export function loadCourses() {
     return (dispatch) => {
         dispatch(beginAjaxCall());

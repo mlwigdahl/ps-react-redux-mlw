@@ -6,6 +6,7 @@ import AuthorForm from './AuthorForm';
 import toastr from 'toastr';
 import {authorIdFromData} from '../../selectors/selectors.js';
 import NotFoundPage from '../common/NotFoundPage';
+import {withRouter} from 'react-router';
 
 export class ManageAuthorPage extends React.Component {
     constructor(props, context) {
@@ -15,12 +16,20 @@ export class ManageAuthorPage extends React.Component {
             author: {...props.author},
             errors: {},
             saving: false,
-            deleting: false
+            deleting: false,
+            dirty: false
         };
 
         this.updateAuthorState = this.updateAuthorState.bind(this);
         this.saveAuthor = this.saveAuthor.bind(this);
         this.deleteAuthor = this.deleteAuthor.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.router.setRouteLeaveHook(this.props.route, () => {
+            if (this.state.dirty == true)
+                return 'You have not saved your changes.  Are you sure you want to leave this page?';
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -34,7 +43,7 @@ export class ManageAuthorPage extends React.Component {
         const field = event.target.name;
         let author = this.state.author;
         author[field] = event.target.value;
-        return this.setState({author: author});
+        return this.setState({author: author, dirty: true});
     }
 
     authorFormIsValid(mode) {
@@ -108,10 +117,10 @@ export class ManageAuthorPage extends React.Component {
         let toast = "<<uninitialized>>";
 
         if (mode == "save") {
-            this.setState({saving: false});
+            this.setState({saving: false, dirty: false});
             toast = "Author saved";
         } else if (mode == "delete") {
-            this.setState({deleting: false});
+            this.setState({deleting: false, dirty: false});
             toast = "Author deleted";
         }
         
@@ -121,7 +130,7 @@ export class ManageAuthorPage extends React.Component {
 
 /// more here
     render() {
-        if (this.props.params.id != "" &&
+        if ((this.props.params.id != "" && this.props.params.id !== undefined) &&
             !this.props.authors.find(auth => auth.id == this.props.params.id)) {
             return (<NotFoundPage />);
         }
@@ -145,7 +154,9 @@ ManageAuthorPage.propTypes = {
     authors: PropTypes.array.isRequired,
     courses: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
-    params: PropTypes.object
+    params: PropTypes.object,
+    route: PropTypes.object,
+    router: PropTypes.object
 };
 
 ManageAuthorPage.contextTypes = {
@@ -181,4 +192,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageAuthorPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ManageAuthorPage));

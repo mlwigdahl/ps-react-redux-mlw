@@ -18,6 +18,10 @@ export function deleteAuthorSuccess(author) {
     return { type: types.DELETE_AUTHOR_SUCCESS, author };
 }
 
+export function authorChanged() {
+    return { type: types.AUTHOR_CHANGED }
+}
+
 export function loadAuthors() {
     return dispatch => {
         dispatch(beginAjaxCall());

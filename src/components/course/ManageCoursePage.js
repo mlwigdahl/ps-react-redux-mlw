@@ -6,6 +6,7 @@ import CourseForm from './CourseForm';
 import toastr from 'toastr';
 import {authorsFormattedForDropdown} from '../../selectors/selectors';
 import NotFoundPage from '../common/NotFoundPage';
+import {withRouter} from 'react-router';
 
 export class ManageCoursePage extends React.Component {
     constructor(props, context) {
@@ -15,7 +16,8 @@ export class ManageCoursePage extends React.Component {
             course: {...props.course},
             errors: {},
             saving: false,
-            deleting: false
+            deleting: false,
+            dirty: false
         };
 
         this.updateCourseState = this.updateCourseState.bind(this);
@@ -23,10 +25,18 @@ export class ManageCoursePage extends React.Component {
         this.deleteCourse = this.deleteCourse.bind(this);
     }
 
+/// improve appearance on this (and the author analogue)
+    componentDidMount() {
+        this.props.router.setRouteLeaveHook(this.props.route, () => {
+            if (this.state.dirty == true)
+                return 'You have not saved your changes.  Are you sure you want to leave this page?';
+        });
+    }
+
     componentWillReceiveProps(nextProps) {
         if (this.props.course == null || nextProps.course == null || 
             (this.props.course.id != nextProps.course.id)) {
-            this.setState({course: Object.assign({}, nextProps.course)});
+            this.setState({course: {...nextProps.course}});
         }
     }
 
@@ -34,7 +44,7 @@ export class ManageCoursePage extends React.Component {
         const field = event.target.name;
         let course = this.state.course;
         course[field] = event.target.value;
-        return this.setState({course: course});
+        return this.setState({course: course, dirty: true});
     }
 
     lengthIsValid(length) {
@@ -108,10 +118,10 @@ export class ManageCoursePage extends React.Component {
         let toast = "<<uninitialized>>";
 
         if (mode == "save") {
-            this.setState({saving: false});
+            this.setState({saving: false, dirty: false});
             toast = "Course saved";
         } else if (mode == "delete") {
-            this.setState({deleting: false});
+            this.setState({deleting: false, dirty: false});
             toast = "Course deleted";
         }
         
@@ -120,7 +130,7 @@ export class ManageCoursePage extends React.Component {
     }
 
     render() {
-        if (this.props.params.id != "" &&
+        if ((this.props.params.id != "" && this.props.params.id !== undefined) &&
             !this.props.courses.find(crs => crs.id == this.props.params.id)) {
             return (<NotFoundPage />);
         }
@@ -146,7 +156,9 @@ ManageCoursePage.propTypes = {
     authors: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired,
     courses: PropTypes.array.isRequired,
-    params: PropTypes.object
+    params: PropTypes.object,
+    route: PropTypes.object,
+    router: PropTypes.object
 };
 
 ManageCoursePage.contextTypes = {
@@ -182,4 +194,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage));

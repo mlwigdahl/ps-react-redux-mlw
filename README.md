@@ -6,7 +6,7 @@ This is my version of this demo app -- if you are interested, I highly recommend
 1. Author administration (with blocking logic when the author has a course) (**DONE**)
 2. Delete course (**DONE**)
 3. Hide empty course list (**DONE**)
-4. Unsaved changes messages
+4. Unsaved changes messages (**DONE**) [but ugly, need to use navigation confirmation trick and add testing]
 5. Client-side validation (category and length data, etc.) (**DONE**)
 6. Handle 404s (ManageCoursePage/ManageAuthorPage); (**DONE**) [not convinced these are the best-structured]
 7. Show # courses in header (**DONE**)
@@ -17,6 +17,7 @@ This is my version of this demo app -- if you are interested, I highly recommend
 ###TODO based on my own challenges... :)
 
 1. Allow sort by header click, with arrow display.
+2. Use unsaved changes custom route dialog solutions from http://stackoverflow.com/questions/35275344/how-to-use-a-custom-component-with-react-router-route-transitions/35793421#35793421 or http://stackoverflow.com/questions/35770438/show-custom-dialog-setrouteleavehook-or-history-listenbefore-react-router-redux
 
 #Starter Kit for [Building Applications in React and Redux in ES6](http://www.pluralsight.com/author/cory-house) on Pluralsight
 

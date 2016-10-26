@@ -66,3 +66,5 @@ describe('Async Actions', () => {
         });
     });
 });
+
+/// need test for AUTHOR_CHANGED 
