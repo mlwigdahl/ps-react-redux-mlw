@@ -10,7 +10,8 @@ function setupSaveProps(type) {
             authors: [],
             actions: {saveAuthor: () => { return Promise.resolve(); }},
             author: {lastName: 'Wigdahl'},
-            params: {id: ''}
+            params: {id: ''},
+            router: {setRouteLeaveHook: () => {}}
         };
     } else if (type == "lastName") {
         return {
@@ -18,7 +19,8 @@ function setupSaveProps(type) {
             authors: [],
             actions: {saveAuthor: () => { return Promise.resolve(); }},
             author: {firstName: 'Matt'},
-            params: {id: ''}
+            params: {id: ''},
+            router: {setRouteLeaveHook: () => {}}
         };
     } else if (type == "dupe") {
         return {
@@ -26,7 +28,8 @@ function setupSaveProps(type) {
             authors: [{id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}],
             actions: {saveAuthor: () => { return Promise.resolve(); }},
             author: {id: '', firstName: 'Matt', lastName: 'Wigdahl'},
-            params: {id: ''}
+            params: {id: ''},
+            router: {setRouteLeaveHook: () => {}}
         };
     } else if (type == "empty") {
         return {
@@ -34,7 +37,8 @@ function setupSaveProps(type) {
             authors: [{id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}],
             actions: {deleteAuthor: () => { return Promise.resolve(); }},
             author: {id: '', firstName: 'Matt', lastName: 'Wigdahl'},
-            params: {id: ''}
+            params: {id: ''},
+            router: {setRouteLeaveHook: () => {}}
         };
     } else if (type == "courseLink") {
         return {
@@ -42,7 +46,8 @@ function setupSaveProps(type) {
             authors: [{id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'}],
             actions: {deleteAuthor: () => { return Promise.resolve(); }},
             author: {id: 'matt-wigdahl', firstName: 'Matt', lastName: 'Wigdahl'},
-            params: {id: 'matt-wigdahl'}
+            params: {id: 'matt-wigdahl'},
+            router: {setRouteLeaveHook: () => {}}
         };
     }
 }

@@ -10,7 +10,8 @@ function setupSaveProps(type) {
             courses: [{id: 'abc', watchHref: '', title: 'ABC', authorId: 'cory-house', length: '2:30', category: 'Javascript'}],
             actions: {saveCourse: () => { return Promise.resolve(); }},
             course: {id: 'abc', watchHref: '', title: 'ABC', authorId: 'cory-house', length: '2:30', category: 'Javascript'},
-            params: {id: 'abc'}
+            params: {id: 'abc'},
+            router: {setRouteLeaveHook: () => {}}
         };
     } else if (type == "category") {
         return {
@@ -18,7 +19,8 @@ function setupSaveProps(type) {
             courses: [{id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:30', category: 'JS'}],
             actions: {saveCourse: () => { return Promise.resolve(); }},
             course: {id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:30', category: 'JS'},
-            params: {id: 'abcde'}
+            params: {id: 'abcde'},
+            router: {setRouteLeaveHook: () => {}}
         };
     } else if (type == "length") {
         return {
@@ -26,7 +28,8 @@ function setupSaveProps(type) {
             courses: [{id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:70', category: 'Javascript'}],
             actions: {saveCourse: () => { return Promise.resolve(); }},
             course: {id: 'abcde', watchHref: '', title: 'ABCDE', authorId: 'cory-house', length: '2:70', category: 'Javascript'},
-            params: {id: 'abcde'}
+            params: {id: 'abcde'},
+            router: {setRouteLeaveHook: () => {}}
         };
     } else if (type == "empty") {
         return {
@@ -34,7 +37,8 @@ function setupSaveProps(type) {
             courses: [],
             actions: {deleteCourse: () => { return Promise.resolve(); }},
             course: {id: '', watchHref: '', title: '', authorId: '', length: '', category: ''},
-            params: {id: ''}
+            params: {id: ''},
+            router: {setRouteLeaveHook: () => {}}
         };
     }
 }
